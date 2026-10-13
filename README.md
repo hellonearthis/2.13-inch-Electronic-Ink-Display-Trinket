@@ -10,6 +10,8 @@
 
 ## 📸 Overview
 
+A 2.13-inch electronic ink (E-Ink / E-Paper) display is a compact, ultra-low-power screen that reflects ambient light like paper, making it ideal for micro-controllers, smart badges, and portable IoT projects.
+
 This repository contains a browser-based application for flashing images to Bluetooth E-Paper electronic shelf tags (e.g. 2.13", 2.90", 3.70", 4.20", and 7.50" panels) using the **Web Bluetooth API** (`navigator.bluetooth`).
 
 No native apps, compilers, node modules, or cloud servers are required. Everything executes 100% locally in your browser with hardware-accurate 3-color Floyd-Steinberg dithering and dual-plane Bluetooth packetization.
@@ -17,6 +19,11 @@ No native apps, compilers, node modules, or cloud servers are required. Everythi
 <p align="center">
   <img src="docs/images/hardware_demo.jpg" alt="Web Bluetooth Flasher running alongside 2.13-inch EDP E-Ink hardware tag" width="750">
 </p>
+
+> [!WARNING]
+> **OEM Android APK & Security Warning:**  
+> The original vendor companion app (`lanqianzhushou_1.2.8.apk`) referenced in retail documentation can be found hosted at [Spotpear E-Paper Study Guide](https://spotpear.com/index/study/detail/id/1222.html).  
+> **Security Advisory:** As detailed in our [Security Audit](SECURITY_AUDIT.md), the original vendor APK requests invasive, high-risk Android permissions (`CALL_PHONE`, `READ_CONTACTS`, `INSTALL_PACKAGES`) and uses unencrypted cleartext HTTP traffic to hardcoded external telemetry servers (`api.youzixy.com`). We strongly advise against sideloading the native APK; use this sandboxed Web Bluetooth flasher instead.
 
 ---
 
