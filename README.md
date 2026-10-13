@@ -34,6 +34,23 @@ No native apps, compilers, node modules, or cloud servers are required. Everythi
 
 ---
 
+## 🏷️ Target Hardware Identification
+
+If you have acquired these electronic price tags from retail liquidations, surplus vendors, or AliExpress, they typically match the following hardware identity:
+
+| Specification | Hardware Identity Details |
+| :--- | :--- |
+| **Product Category** | Bluetooth Low Energy (BLE) Electronic Paper Display (EPD) Shelf Tag / Electronic Shelf Label (ESL) |
+| **OEM Ecosystem** | **Lanqian Zhushou (蓝签助手 / Blue Tag Assistant)** by **ZGHD (智感互动 / Pinntag)** (`com.zghd.pinntag`) |
+| **BLE Advertising Prefix** | **`EDP_*`** (*Electronic Display Paper*) or **`WP_*`** |
+| **Primary Display Driver** | **SSD1680** / **UC8151D** / **JD79653** tri-color gate/source driver |
+| **Wireless Radio SoC** | **Telink TLSR8xxx** / **TI CC2541** / **PhyPlus PHY62xx** |
+| **Primary GATT Service** | **`0xFFE0`** (Write Characteristic: **`0xFFE2`**, Telemetry / Notify: **`0xFFE1`**) |
+| **Auxiliary SIG Services** | **`0x180F`** (Battery Service, Char `0x2A19`) & **`0x180A`** (Device Information) |
+| **Primary Panel Spec** | **2.13-inch 3-Color (Black, White, Red)** electrophoretic panel ($250 \times 128$ resolution) |
+
+---
+
 ## 🖥️ Supported Hardware Profiles
 
 The primary default configuration is **2.13" ($250 \times 128$)**:
