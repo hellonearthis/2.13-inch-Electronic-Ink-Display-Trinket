@@ -2,7 +2,7 @@
 
 **Target Package:** `com.zghd.pinntag` (`lanqianzhushou_1.2.8.apk`)  
 **Decompiled Components:** `io.dcloud.uniplugin.photoUtil` (Native Android Extension) & `uniapp_www` (HTML5/uni-app Frontend)  
-**Reference Engines:** [eink_protocol_engine.py](file:///i:/rea/e-ink/eink_protocol_engine.py) & [EpdTagProtocolEngine.java](file:///i:/rea/e-ink/EpdTagProtocolEngine.java)  
+**Reference Engines:** [protocol.js](protocol.js) & [ble.js](ble.js)  
 **Auditor:** Reverse Engineering & Systems Security Review  
 **Date:** October 2026  
 
@@ -96,7 +96,7 @@ graph TD
 ---
 
 ### SEC-02: Absence of Replay Attack Defenses & Weak Checksum
-- **Location:** [eink_protocol_engine.py](file:///i:/rea/e-ink/eink_protocol_engine.py#L114-L126), [EpdTagProtocolEngine.java](file:///i:/rea/e-ink/EpdTagProtocolEngine.java#L115-L125)
+- **Location:** [protocol.js](protocol.js) (`calculatePacketChecksumByte()`)
 - **Impact:** **High**
 - **Technical Breakdown:**
   The integrity of transmitted frames relies solely on an 8-bit modular summation:
@@ -284,7 +284,7 @@ In accordance with our workspace engineering standards (**Ruthless Code Anti-Blo
 1. **Refactoring of Legacy Android Spaghetti:**
    The original decompiled implementation in `io.dcloud.uniplugin.photoUtil` spanned dozens of redundant files (`Ble.java`, `BleImage.java`, `TestModule.java`, `EpdDevParamFactory.java`, `EPaperPicture.java`) riddled with cosmetic wrappers, untyped maps, and single-letter variables (`a`, `b`, `c`).
 2. **Consolidation into Single-Source Engines:**
-   - Both [EpdTagProtocolEngine.java](file:///i:/rea/e-ink/EpdTagProtocolEngine.java) and [eink_protocol_engine.py](file:///i:/rea/e-ink/eink_protocol_engine.py) inline the mathematical byte packing and modular checksum calculations into explicit, readable steps without unnecessary intermediate classes.
+   - Both [protocol.js](protocol.js) and [ble.js](ble.js) inline the mathematical byte packing and modular checksum calculations into explicit, readable steps without unnecessary intermediate classes.
    - Variable naming has been normalized to descriptive, self-documenting terminology (`blockIndex`, `horizontalResolution`, `verticalResolution`, `checksumAccumulator`).
 3. **Memory Optimization Recommendation:**
    The original Android implementation loaded images into memory as uncompressed 32-bit ARGB bitmaps before converting to monochrome bit arrays. On devices with low RAM or during batch updates across hundreds of tags, this causes severe Garbage Collection pauses. Direct stream-based 1-bit dithering should be utilized to keep memory allocation strictly under 100 KB per display update.

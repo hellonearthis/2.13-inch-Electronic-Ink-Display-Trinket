@@ -171,7 +171,7 @@ When a pixel is quantized to **Red**:
 
 ## 6. Progressive Web Application (PWA) Features
 
-The web flasher ([webapp/index.html](file:///i:/rea/e-ink/webapp/index.html)) provides a zero-dependency, client-side flasher running over Web Bluetooth:
+The web flasher ([index.html](index.html)) provides a zero-dependency, client-side flasher running over Web Bluetooth:
 
 * **Triple Display Surface Previews:**
   - **Composite Preview:** Renders the combined simulated tri-color e-paper output (White, Black, Red).
@@ -192,7 +192,7 @@ The web flasher ([webapp/index.html](file:///i:/rea/e-ink/webapp/index.html)) pr
 
 ## 7. Deliverables & Documentation Index
 
-- **Security Audit & Threat Model:** [SECURITY_AUDIT.md](file:///i:/rea/e-ink/SECURITY_AUDIT.md) — Comprehensive assessment of BLE transport vulnerabilities, Android over-privilege, and architecture flow diagrams.
-- **Web App Architectural Plan:** [WEB_APP_PLAN.md](file:///i:/rea/e-ink/WEB_APP_PLAN.md) — Design, pros/cons, and security remediation strategy.
-- **Web Bluetooth Application (PWA):** [webapp/index.html](file:///i:/rea/e-ink/webapp/index.html) — Zero-dependency, offline-capable Web Bluetooth flasher with real-time Floyd-Steinberg dithering and hardware profile support.
-- **BLE Command Catalog & Specification:** [BLE_COMMANDS_REFERENCE.md](file:///i:/rea/e-ink/BLE_COMMANDS_REFERENCE.md) — Exhaustive opcode reference, byte frames, notifications, and timing requirements.
+- **Security Audit & Threat Model:** [SECURITY_AUDIT.md](SECURITY_AUDIT.md) — Comprehensive assessment of BLE transport vulnerabilities, Android over-privilege, and architecture flow diagrams.
+- **Web App Architectural Plan:** [ARCHITECTURE.md](ARCHITECTURE.md) — Design, pros/cons, and security remediation strategy.
+- **Web Bluetooth Application (PWA):** [index.html](index.html) — Zero-dependency, offline-capable Web Bluetooth flasher with real-time Floyd-Steinberg dithering and hardware profile support.
+- **BLE Command Catalog & Specification:** [BLE_COMMANDS_REFERENCE.md](BLE_COMMANDS_REFERENCE.md) — Exhaustive opcode reference, byte frames, notifications, and timing requirements.

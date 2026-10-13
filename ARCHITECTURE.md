@@ -2,7 +2,7 @@
 
 **Target System:** Browser-Based Bluetooth Low Energy (Web Bluetooth) Electronic Shelf Label (ESL) Flasher  
 **Protocol Compatibility:** 2.13", 2.9", 4.2" Dual-Color & Tri-Color Displays (Opcodes `0x13`, `0x12`, `0x50`)  
-**Specification Reference:** [README.md](file:///i:/rea/e-ink/README.md) & [SECURITY_AUDIT.md](file:///i:/rea/e-ink/SECURITY_AUDIT.md)  
+**Specification Reference:** [PROTOCOL_README.md](PROTOCOL_README.md) & [SECURITY_AUDIT.md](SECURITY_AUDIT.md)  
 **Author:** Reverse Engineering & Systems Security Review  
 
 ---
@@ -75,7 +75,7 @@ graph TD
 
 ## 3. Security Vulnerability Remediation Matrix
 
-This table maps the findings from [SECURITY_AUDIT.md](file:///i:/rea/e-ink/SECURITY_AUDIT.md) to the Web App architectural remediation:
+This table maps the findings from [SECURITY_AUDIT.md](SECURITY_AUDIT.md) to the Web App architectural remediation:
 
 | Audit ID | Vulnerability in Original APK | Web App Resolution Status | Technical Remediation Mechanism |
 | :--- | :--- | :--- | :--- |
@@ -90,7 +90,7 @@ This table maps the findings from [SECURITY_AUDIT.md](file:///i:/rea/e-ink/SECUR
 
 ## 4. Technical Implementation & Verification Status
 
-The web application is implemented and verified as a **single, zero-dependency, collocated HTML5/JavaScript application** in [webapp/index.html](file:///i:/rea/e-ink/webapp/index.html).
+The web application is implemented and verified with a clean modular ES architecture across [index.html](index.html), [app.js](app.js), [ble.js](ble.js), [dither.js](dither.js), and [protocol.js](protocol.js).
 
 ### Phase 1: Web Bluetooth Communication Driver — [VERIFIED COMPLETE]
 - Device discovery using `navigator.bluetooth.requestDevice` with prefixes `EDP` and `WP`.
@@ -121,4 +121,4 @@ The web application is implemented and verified as a **single, zero-dependency, 
   - `Red Layer (0x12)`: Isolates red plane; transparent non-red pixels rendered over a subtle chassis checkerboard.
 - **Pixel Telemetry Stats Bar:** Live counts and percentages for White, Black, and Red pixels.
 - **Diagnostic Hex Console:** Collapsible direct transmission console with quick command tooltips for manual tag testing.
-- **Offline PWA:** Fully offline-capable via [webapp/sw.js](file:///i:/rea/e-ink/webapp/sw.js) and [webapp/manifest.json](file:///i:/rea/e-ink/webapp/manifest.json).
+- **Offline PWA:** Fully offline-capable via [sw.js](sw.js) and [manifest.json](manifest.json).
