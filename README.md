@@ -14,6 +14,10 @@ This repository contains a browser-based application for flashing images to Blue
 
 No native apps, compilers, node modules, or cloud servers are required. Everything executes 100% locally in your browser with hardware-accurate 3-color Floyd-Steinberg dithering and dual-plane Bluetooth packetization.
 
+<p align="center">
+  <img src="docs/images/hardware_demo.jpg" alt="Web Bluetooth Flasher running alongside 2.13-inch EDP E-Ink hardware tag" width="750">
+</p>
+
 ---
 
 ## ✨ Features
