@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Open-source Web Bluetooth Electronic Shelf Label (ESL) Flasher for 2.13, 2.9, 4.2, and 7.5 inch E-paper tags.">
+  <title>E-Ink ESL Web Bluetooth Flasher</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="application-container">
+  <header class="application-header">
+    <div class="application-title-group">
+      <h1>E-Ink ESL Web Bluetooth Flasher</h1>
+      <p>Modular, zero-dependency, offline-capable protocol engine for Bluetooth Electronic Paper Tags</p>
+    </div>
+    <div id="connectionStatusBadge" class="bluetooth-status-badge disconnected">
+      Bluetooth: Disconnected
+    </div>
+  </header>
+
+  <div id="unsupportedBrowserWarning" class="warning-banner">
+    Web Bluetooth API is not supported in this browser. Please use Google Chrome, Microsoft Edge, or Opera on Windows, macOS, Linux, or Android.
+  </div>
+
+  <div class="main-grid">
+    <!-- Left Configuration Panel -->
+    <div class="card">
+      <div class="card-title">1. Hardware & Connection</div>
+
+      <div class="form-group">
+        <label for="displayProfileSelect">Display Panel Profile</label>
+        <select id="displayProfileSelect">
+          <option value="2.13_inch_128" data-width="250" data-height="128" data-two-byte="false" data-rotate="false" selected>2.13" (250 × 128 - Standard)</option>
+          <option value="2.13_inch_122" data-width="250" data-height="122" data-two-byte="false" data-rotate="false">2.13" (250 × 122 - Alternative)</option>
+          <option value="2.9_inch" data-width="296" data-height="128" data-two-byte="false" data-rotate="false">2.90" (296 × 128)</option>
+          <option value="3.7_inch" data-width="416" data-height="240" data-two-byte="true" data-rotate="false">3.70" (416 × 240)</option>
+          <option value="4.2_inch" data-width="400" data-height="300" data-two-byte="true" data-rotate="true">4.20" (400 × 300 - Rotated)</option>
+          <option value="7.5_inch" data-width="800" data-height="480" data-two-byte="true" data-rotate="true">7.50" (800 × 480 - Rotated)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="colorModeSelect">Color Channel Plane</label>
+        <select id="colorModeSelect">
+          <option value="tri_color" selected>Tri-Color (Black, White & Red)</option>
+          <option value="dual_color">Dual-Color (Black & White)</option>
+        </select>
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="acceptAllDevicesCheckbox">
+        <span>Scan all BLE devices (Bypass EDP/WP name filter)</span>
+      </label>
+
+      <div class="button-group">
+        <button id="connectDeviceButton" class="primary">Connect Tag</button>
+        <button id="disconnectDeviceButton" class="danger" disabled>Disconnect</button>
+      </div>
+
+      <div class="card-title">2. Graphic Processing</div>
+
+      <div class="form-group">
+        <label for="imageFileInput">Upload Image File (PNG, JPG, BMP)</label>
+        <input type="file" id="imageFileInput" accept="image/*">
+      </div>
+
+      <div class="button-group">
+        <button id="loadTriColorDemoButton" class="primary">Load Tri-Color Test</button>
+        <button id="loadRetailDemoButton">Load Price Demo</button>
+        <button id="loadQrDemoButton">Load QR Demo</button>
+      </div>
+
+      <div class="form-group">
+        <label>Monochrome Luminance Threshold</label>
+        <div class="slider-row">
+          <input type="range" id="luminanceThresholdSlider" min="0" max="255" value="180">
+          <span id="luminanceThresholdValueLabel">180</span>
+        </div>
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="floydSteinbergDitherCheckbox" checked>
+        <span>Apply Floyd-Steinberg Dithering</span>
+      </label>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="invertLuminanceCheckbox">
+        <span>Invert Colors (White Background)</span>
+      </label>
+
+      <div class="card-title">3. Flash Transmission & Diagnostics</div>
+
+      <div class="form-group">
+        <label>Inter-Packet Delay (Timing Pacing)</label>
+        <div class="slider-row">
+          <input type="range" id="interPacketDelaySlider" min="20" max="150" value="70">
+          <span id="interPacketDelayValueLabel">70ms</span>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button id="flashScreenButton" class="primary" style="flex: 1;" disabled>Flash to Screen</button>
+      </div>
+
+      <div class="button-group">
+        <button id="triggerRefreshButton" disabled>Refresh (0x50)</button>
+        <button id="queryBatteryButton" disabled>Query Battery</button>
+        <button id="scanServicesButton" disabled>Inspect Services</button>
+      </div>
+
+      <details class="collapsible-hex-container">
+        <summary>Raw Hex Command Dispatcher</summary>
+        <div class="form-group" style="margin-top: 8px;">
+          <div class="label-with-tooltip">
+            <label for="rawHexCommandInput">Send Raw Hex to 0xFFE2</label>
+            <div class="tooltip-icon" tabindex="0">?
+              <div class="tooltip-popup">
+                <strong>Supported BLE Commands (Opcodes):</strong>
+                <table class="tooltip-table">
+                  <tr><td><code>6000010061</code></td><td>Battery Query (Legacy 0x60)</td></tr>
+                  <tr><td><code>50000101</code></td><td>Screen Refresh (Ble.updateSend)</td></tr>
+                  <tr><td><code>50010051</code></td><td>Alternative Firmware Refresh</td></tr>
+                  <tr><td><code>1300000000</code></td><td>Start Black/White Plane</td></tr>
+                  <tr><td><code>13ffffffff</code></td><td>Finish Black/White Plane</td></tr>
+                  <tr><td><code>1200000000</code></td><td>Start Red/Yellow Plane</td></tr>
+                  <tr><td><code>12ffffffff</code></td><td>Finish Red/Yellow Plane</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="rawHexCommandInput" placeholder="e.g. 50000101 or 6000010061" style="flex: 1; font-family: monospace;">
+            <button id="sendRawHexButton" disabled>Send</button>
+          </div>
+          <div class="quick-chips-row">
+            <span class="hex-chip" data-hex="6000010061" title="Legacy Battery Query">Battery (0x60)</span>
+            <span class="hex-chip" data-hex="50000101" title="Screen Refresh">Refresh (0x50)</span>
+            <span class="hex-chip" data-hex="1300000000" title="Start Black/White">Start Black</span>
+            <span class="hex-chip" data-hex="13ffffffff" title="Finish Black/White">Finish Black</span>
+            <span class="hex-chip" data-hex="1200000000" title="Start Red/Yellow">Start Red</span>
+            <span class="hex-chip" data-hex="12ffffffff" title="Finish Red/Yellow">Finish Red</span>
+          </div>
+        </div>
+      </details>
+
+      <div class="form-group">
+        <label>Transmission Progress</label>
+        <div class="progress-bar-container">
+          <div id="progressBarFill" class="progress-bar-fill"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--color-text-secondary); margin-top: 4px;">
+          <span id="packetProgressLabel">0 / 0 Packets</span>
+          <span id="percentageProgressLabel">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Preview & Telemetry Panel -->
+    <div class="card" style="display: flex; flex-direction: column;">
+      <div class="card-title">Display Surface Preview (Exact Pixel Simulation)</div>
+
+      <div class="preview-tabs">
+        <button id="previewTabComposite" class="preview-tab-btn active" type="button">Composite Preview</button>
+        <button id="previewTabBlack" class="preview-tab-btn" type="button">Black Layer (0x13)</button>
+        <button id="previewTabRed" class="preview-tab-btn" type="button">Red Layer (0x12)</button>
+      </div>
+
+      <div class="preview-stats-bar">
+        <span>White: <strong id="whitePixelCountLabel">0</strong></span>
+        <span>Black: <strong id="blackPixelCountLabel">0</strong></span>
+        <span class="red-stat">Red: <strong id="redPixelCountLabel">0</strong></span>
+      </div>
+
+      <div class="preview-container">
+        <div class="epaper-chassis">
+          <div class="epaper-screen-frame">
+            <canvas id="epaperPreviewCanvas" width="250" height="128"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-title">Radio Protocol Telemetry & Hex Console</div>
+      <div id="protocolTelemetryConsole" class="console-box">[System] Protocol engine ready. Select or upload graphic template.</div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

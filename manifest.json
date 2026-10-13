@@ -1,0 +1,9 @@
+{
+  "name": "E-Ink ESL Web Bluetooth Flasher",
+  "short_name": "E-Ink Flasher",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#131b2e",
+  "description": "Open-source Web Bluetooth Electronic Shelf Label (ESL) Flasher for 2.13, 2.9, 4.2, and 7.5 inch E-paper tags."
+}
